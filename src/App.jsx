@@ -19,87 +19,129 @@ import CustomerOrders from './components/Customer/CustomerOrders';
 import CashierDashboard from "./components/Dashboard/CashierDashboard";
 import CustomerDashboard from "./components/Dashboard/CustomerDashboard";
 
+// Import only index.css (remove App.css import if it's causing issues)
+import "./index.css";
+// import './App.css'; // Comment this out temporarily to test
+
 // Create a separate component that uses the auth hook
 function AppContent() {
-  const { user } = useAuth(); // Get user from auth context
+  const { user } = useAuth();
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <Toaster position="top-right" />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 3000,
+          style: {
+            background: "#363636",
+            color: "#fff",
+          },
+          success: {
+            style: {
+              background: "#10b981",
+            },
+          },
+          error: {
+            style: {
+              background: "#ef4444",
+            },
+          },
+        }}
+      />
+
       <Routes>
         {/* Public landing page */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
 
+        {/* Dashboard - Role based */}
         <Route
           path="/dashboard"
           element={
             <ProtectedRoute>
               <>
                 <Navbar />
-                {user?.role === 'admin' && <AdminDashboard />}
-                {user?.role === 'cashier' && <CashierDashboard />}
-                {user?.role === 'customer' && <CustomerDashboard />}
+                <div className="container mx-auto px-4 py-8">
+                  {user?.role === "admin" && <AdminDashboard />}
+                  {user?.role === "cashier" && <CashierDashboard />}
+                  {user?.role === "customer" && <CustomerDashboard />}
+                </div>
               </>
             </ProtectedRoute>
           }
         />
 
+        {/* POS Interface - Cashier only */}
         <Route
           path="/pos"
           element={
             <ProtectedRoute requiredRole="cashier">
               <>
                 <Navbar />
-                <POSInterface />
+                <div className="container mx-auto px-4 py-8">
+                  <POSInterface />
+                </div>
               </>
             </ProtectedRoute>
           }
         />
 
+        {/* Order Queue - Cashier and Admin */}
         <Route
           path="/orders/queue"
           element={
-            <ProtectedRoute requiredRole={['cashier', 'admin']}>
+            <ProtectedRoute requiredRole={["cashier", "admin"]}>
               <>
                 <Navbar />
-                <OrderQueue />
+                <div className="container mx-auto px-4 py-8">
+                  <OrderQueue />
+                </div>
               </>
             </ProtectedRoute>
           }
         />
 
+        {/* Menu View - All authenticated users */}
         <Route
           path="/menu"
           element={
             <ProtectedRoute>
               <>
                 <Navbar />
-                <MenuView />
+                <div className="container mx-auto px-4 py-8">
+                  <MenuView />
+                </div>
               </>
             </ProtectedRoute>
           }
         />
 
+        {/* Customer Orders - Customer only */}
         <Route
           path="/my-orders"
           element={
             <ProtectedRoute requiredRole="customer">
               <>
                 <Navbar />
-                <CustomerOrders />
+                <div className="container mx-auto px-4 py-8">
+                  <CustomerOrders />
+                </div>
               </>
             </ProtectedRoute>
           }
         />
 
+        {/* Reports - Admin only */}
         <Route
           path="/reports"
           element={
             <ProtectedRoute requiredRole="admin">
               <>
                 <Navbar />
-                <Reports />
+                <div className="container mx-auto px-4 py-8">
+                  <Reports />
+                </div>
               </>
             </ProtectedRoute>
           }
@@ -129,7 +171,7 @@ function App() {
     <Router>
       <AuthProvider>
         <CartProvider>
-          <AppContent /> {/* This component has access to auth context */}
+          <AppContent />
         </CartProvider>
       </AuthProvider>
     </Router>

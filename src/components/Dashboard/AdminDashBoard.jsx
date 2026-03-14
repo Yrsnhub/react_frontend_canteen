@@ -8,7 +8,11 @@ import {
   CurrencyDollarIcon,
   ShoppingBagIcon,
   UsersIcon,
-  CubeIcon
+  CubeIcon,
+  CalendarIcon,
+  ChartBarIcon,
+  ChartPieIcon,
+  ArrowTrendingUpIcon  // Changed from TrendingUpIcon to ArrowTrendingUpIcon
 } from '@heroicons/react/24/outline';
 
 const StatCard = ({ title, value, icon: Icon, accentColor, bgColor, loading, delay = 0 }) => (
@@ -66,7 +70,7 @@ const AdminDashboard = () => {
       {/* Date Range Picker */}
       <div className="card mb-6 p-4 fade-in-up">
         <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center gap-2">
-          <span>📅</span> Date Range
+          <CalendarIcon className="h-4 w-4" /> Date Range
         </p>
         <div className="flex flex-wrap gap-4">
           <div className="flex-1 min-w-[160px]">
@@ -133,16 +137,16 @@ const AdminDashboard = () => {
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         <div className="card overflow-hidden fade-in-up">
-          <div className="card-header" style={{ borderLeftColor: '#800000', borderLeft: '3px solid #800000' }}>
-            <span>📊</span> Sales Overview
+          <div className="card-header flex items-center gap-2" style={{ borderLeftColor: '#800000', borderLeft: '3px solid #800000' }}>
+            <ChartBarIcon className="h-5 w-5" /> Sales Overview
           </div>
           <div className="card-body">
             <SalesChart dateRange={dateRange} />
           </div>
         </div>
         <div className="card overflow-hidden fade-in-up">
-          <div className="card-header" style={{ borderLeft: '3px solid #800000' }}>
-            <span>🥧</span> Category Breakdown
+          <div className="card-header flex items-center gap-2" style={{ borderLeft: '3px solid #800000' }}>
+            <ChartPieIcon className="h-5 w-5" /> Category Breakdown
           </div>
           <div className="card-body">
             <CategoryPieChart dateRange={dateRange} />
@@ -151,8 +155,8 @@ const AdminDashboard = () => {
       </div>
 
       <div className="card overflow-hidden fade-in-up">
-        <div className="card-header" style={{ borderLeft: '3px solid #800000' }}>
-          <span>📈</span> Order Trends (30 Days)
+        <div className="card-header flex items-center gap-2" style={{ borderLeft: '3px solid #800000' }}>
+          <ArrowTrendingUpIcon className="h-5 w-5" /> Order Trends (30 Days)  {/* Changed to ArrowTrendingUpIcon */}
         </div>
         <div className="card-body">
           <OrderTrendChart />
